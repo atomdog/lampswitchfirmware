@@ -48,17 +48,29 @@ async def bright(valin):
                 )
 
 async def light_on():
-    await client.write_gatt_char(LIGHT_CHARACTERISTIC, b"\x01")
-    await asyncio.sleep(1.0)
+    async with BleakClient(address) as client:
+        print(f"Connected: {client.is_connected}")
+        paired = await client.pair(protection_level=2)
+        print("Paired")
+        await client.write_gatt_char(LIGHT_CHARACTERISTIC, b"\x01")
+        await asyncio.sleep(1.0)
 
 async def light_off():
-    await client.write_gatt_char(LIGHT_CHARACTERISTIC, b"\x00")
-    await asyncio.sleep(1.0)
+    async with BleakClient(address) as client:
+        print(f"Connected: {client.is_connected}")
+        paired = await client.pair(protection_level=2)
+        print("Paired")
+        await client.write_gatt_char(LIGHT_CHARACTERISTIC, b"\x00")
+        await asyncio.sleep(1.0)
 
 async def hue(colorin):
-    color = convert_rgb(colorin)
-    await client.write_gatt_char(COLOR_CHARACTERISTIC, color)
-    await asyncio.sleep(1.0)
+    async with BleakClient(address) as client:
+        print(f"Connected: {client.is_connected}")
+        paired = await client.pair(protection_level=2)
+        print("Paired")
+        color = convert_rgb(colorin)
+        await client.write_gatt_char(COLOR_CHARACTERISTIC, color)
+        await asyncio.sleep(1.0)
 
 
 async def wrapper(command, argument):
