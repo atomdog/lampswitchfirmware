@@ -31,7 +31,7 @@ import asyncio
 from bleak import BleakScanner
 
 
-def bright(valin):
+async def bright(valin):
     async with BleakClient(address) as client:
         print("bright: "+ str(valin))
         print(f"Connected: {client.is_connected}")
