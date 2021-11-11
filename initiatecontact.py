@@ -107,5 +107,35 @@ async def main(address):
         )
 
 
-if __name__ == "__main__":
-    asyncio.run(main(sys.argv[1] if len(sys.argv) == 2 else ADDRESS))
+#if __name__ == "__main__":
+    #asyncio.run(main(sys.argv[1] if len(sys.argv) == 2 else ADDRESS))
+
+def bright(valin):
+    async with BleakClient(address) as client:
+        print("bright: "+ str(valin))
+        print(f"Connected: {client.is_connected}")
+
+        paired = await client.pair(protection_level=2)
+        print(f"Paired: {paired}")
+                await client.write_gatt_char(
+                    BRIGHTNESS_CHARACTERISTIC,
+                    bytearray(
+                        [
+                            valin,
+                        ]
+                    ),
+                )
+async def light_on():
+    await client.write_gatt_char(LIGHT_CHARACTERISTIC, b"\x01")
+    await asyncio.sleep(1.0)
+    
+async def light_off():
+    await client.write_gatt_char(LIGHT_CHARACTERISTIC, b"\x00")
+    await asyncio.sleep(1.0)
+
+def wrapper(command, argument):
+    commandlist = []
+    brightness = lambda a: bright(a)
+    commandlist.append(brightness)
+    commandlist.append(brightness)
+    asyncio.run()
