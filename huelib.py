@@ -38,7 +38,7 @@ def bright(valin):
 
         paired = await client.pair(protection_level=2)
         print(f"Paired: {paired}")
-                await client.write_gatt_char(
+        await client.write_gatt_char(
                     BRIGHTNESS_CHARACTERISTIC,
                     bytearray(
                         [
@@ -46,6 +46,7 @@ def bright(valin):
                         ]
                     ),
                 )
+
 async def light_on():
     await client.write_gatt_char(LIGHT_CHARACTERISTIC, b"\x01")
     await asyncio.sleep(1.0)
